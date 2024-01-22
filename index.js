@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         cell.addEventListener('click', handleCellClick);
                         date++;
                     } else {
-                        cell.classList.add('out-month'); // Add class to cells representing days in the next month
+                        cell.classList.add('out-month');
                     }
                 }
 
@@ -41,17 +41,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function handleCellClick() {
         const selectedDate = new Date(currentYear, currentMonth, this.textContent);
-
-        // Check if the clicked cell represents a day in the next month
+    
+      
         const isNextMonth = this.classList.contains('out-month');
-
-        if (!isNextMonth && !isSelectedDate(selectedDate)) {
-            selectedDates.push(selectedDate);
+    
+        if (!isNextMonth) {
+            const index = findSelectedDateIndex(selectedDate);
+    
+            if (index !== -1) {
+                
+                selectedDates.splice(index, 1);
+            } else {
+                
+                selectedDates.push(selectedDate);
+            }
+    
             updateSelectedDateStyles();
             displaySelectedDates();
         }
     }
-
+    
+    function findSelectedDateIndex(date) {
+        
+        return selectedDates.findIndex(selectedDate => isSameDate(selectedDate, date));
+    }
     function updateSelectedDateStyles() {
         const allCells = document.querySelectorAll('#calendar tbody tr td');
         allCells.forEach(cell => cell.classList.remove('selected'));
@@ -60,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const day = date.getDate();
             const matchingCell = Array.from(allCells).find(cell =>
                 !cell.classList.contains('disabled') &&
-                !cell.classList.contains('out-month') && // Ignore cells in the next month
+                !cell.classList.contains('out-month') && 
                 parseInt(cell.textContent) === day
             );
 
@@ -92,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const newMonth = new Date().getMonth();
 
         if (newMonth !== currentMonth) {
-            // Clear selected dates from the previous month
+           
             selectedDates = [];
         }
 
