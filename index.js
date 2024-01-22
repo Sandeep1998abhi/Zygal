@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
         selectedDates.forEach(date => {
             const day = date.getDate();
-            const matchingCell = Array.from(allCells).find(cell => !cell.classList.contains('disabled') && parseInt(cell.textContent) === day);
+            const matchingCell = Array.from(allCells).find(cell => !cell.classList.contains('') && parseInt(cell.textContent) === day);
     
             if (matchingCell) {
                 matchingCell.classList.add('selected');
