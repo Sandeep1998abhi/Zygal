@@ -49,6 +49,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         updateCalendar();
+        updateSelectedDateStyles();
+    }
+    function updateSelectedDateStyles() {
+        const allCells = document.querySelectorAll('#calendar tbody tr td');
+        allCells.forEach(cell => cell.classList.remove('selected'));
+    
+        selectedDates.forEach(date => {
+            const day = date.getDate();
+            const matchingCell = Array.from(allCells).find(cell => !cell.classList.contains('disabled') && parseInt(cell.textContent) === day);
+    
+            if (matchingCell) {
+                matchingCell.classList.add('selected');
+            }
+        });
     }
 
     function isSelectedDate(date) {
@@ -75,18 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             
     }
-    function updateSelectedDateStyles() {
-        const allCells = document.querySelectorAll('#calendar tbody tr td');
-        allCells.forEach(cell => cell.classList.remove('selected'));
-
-        selectedDates.forEach(date => {
-            const day = date.getDate();
-            const cell = document.getElementById(`cell-${date.getDay()}-${day - 1}`);
-            if (cell) {
-                cell.classList.add('selected');
-            }
-        });
-    }
+    
 
 
     function getMonthName(monthIndex) {
