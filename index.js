@@ -13,20 +13,21 @@ document.addEventListener('DOMContentLoaded', function () {
         calendarBody.innerHTML = '';
         monthYearText.textContent = `${getMonthName(currentMonth)} ${currentYear}`;
 
+        const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
         let date = 1;
-        
 
         for (let i = 0; i < 6; i++) {
             const row = document.createElement('tr');
 
             for (let j = 0; j < 7; j++) {
-                
                 const cell = document.createElement('td');
 
-                if (date <= getDaysInMonth(currentYear, currentMonth)) {
-                    cell.textContent = date;
-                    cell.addEventListener('click', handleCellClick);
-                    date++;
+                if ((i === 0 && j >= firstDayOfMonth) || i > 0) {
+                    if (date <= getDaysInMonth(currentYear, currentMonth)) {
+                        cell.textContent = date;
+                        cell.addEventListener('click', handleCellClick);
+                        date++;
+                    }
                 }
 
                 row.appendChild(cell);
@@ -34,18 +35,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             calendarBody.appendChild(row);
         }
-        updateSelectedDateStyles();
     }
 
     function handleCellClick() {
         const selectedDate = new Date(currentYear, currentMonth, this.textContent);
-    
+
         if (isSelectedDate(selectedDate)) {
             selectedDates = selectedDates.filter(date => !isSameDate(date, selectedDate));
         } else {
-            
             selectedDates.push(selectedDate);
-
         }
 
         updateCalendar();
@@ -57,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
         selectedDates.forEach(date => {
             const day = date.getDate();
-            const matchingCell = Array.from(allCells).find(cell => !cell.classList.contains('') && parseInt(cell.textContent) === day);
+            const matchingCell = Array.from(allCells).find(cell => !cell.classList.contains('disabled') && parseInt(cell.textContent) === day);
     
             if (matchingCell) {
                 matchingCell.classList.add('selected');
@@ -86,11 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedDateDisplay.textContent = `User Selected Dates: ${selectedDates
             .map(date => `${getMonthName(date.getMonth())} ${date.getDate()}, ${date.getFullYear()}`)
             .join(', ')}`;
-
-            
     }
-    
-
 
     function getMonthName(monthIndex) {
         const months = [
