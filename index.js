@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         cell.textContent = date;
                         cell.addEventListener('click', handleCellClick);
                         date++;
+                    } else {
+                        cell.classList.add('out-month'); // Add class to cells representing days in the next month
                     }
                 }
 
@@ -40,23 +42,28 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleCellClick() {
         const selectedDate = new Date(currentYear, currentMonth, this.textContent);
 
-        if (isSelectedDate(selectedDate)) {
-            selectedDates = selectedDates.filter(date => !isSameDate(date, selectedDate));
-        } else {
-            selectedDates.push(selectedDate);
-        }
+        // Check if the clicked cell represents a day in the next month
+        const isNextMonth = this.classList.contains('out-month');
 
-        updateCalendar();
-        updateSelectedDateStyles();
+        if (!isNextMonth && !isSelectedDate(selectedDate)) {
+            selectedDates.push(selectedDate);
+            updateSelectedDateStyles();
+            displaySelectedDates();
+        }
     }
+
     function updateSelectedDateStyles() {
         const allCells = document.querySelectorAll('#calendar tbody tr td');
         allCells.forEach(cell => cell.classList.remove('selected'));
-    
+
         selectedDates.forEach(date => {
             const day = date.getDate();
-            const matchingCell = Array.from(allCells).find(cell => !cell.classList.contains('disabled') && parseInt(cell.textContent) === day);
-    
+            const matchingCell = Array.from(allCells).find(cell =>
+                !cell.classList.contains('disabled') &&
+                !cell.classList.contains('out-month') && // Ignore cells in the next month
+                parseInt(cell.textContent) === day
+            );
+
             if (matchingCell) {
                 matchingCell.classList.add('selected');
             }
@@ -75,15 +82,23 @@ document.addEventListener('DOMContentLoaded', function () {
         );
     }
 
-    function updateCalendar() {
-        generateCalendar();
-        displaySelectedDates();
-    }
-
     function displaySelectedDates() {
         selectedDateDisplay.textContent = `User Selected Dates: ${selectedDates
             .map(date => `${getMonthName(date.getMonth())} ${date.getDate()}, ${date.getFullYear()}`)
             .join(', ')}`;
+    }
+
+    function updateCalendar() {
+        const newMonth = new Date().getMonth();
+
+        if (newMonth !== currentMonth) {
+            // Clear selected dates from the previous month
+            selectedDates = [];
+        }
+
+        currentMonth = newMonth;
+        generateCalendar();
+        updateSelectedDateStyles();
     }
 
     function getMonthName(monthIndex) {
