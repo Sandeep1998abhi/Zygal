@@ -11,4 +11,76 @@ html, body{
 
 h1{
     background-color: red;
+    display: flex;
+    flex-direction: column;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+#calendar {
+    border-collapse: collapse;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+td:hover {
+    background-color: #f9f9f9;
+}
+
+.selected {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+button {
+    width: 155px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #0742c2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#selectedDateDisplay {
+    width: 335px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.selected {
+    background-color:blue;
+    color: #fff; 
+    
 }
