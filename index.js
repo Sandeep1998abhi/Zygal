@@ -102,14 +102,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateCalendar() {
-        const newMonth = new Date().getMonth();
-
-        if (newMonth !== currentMonth) {
-           
-            selectedDates = [];
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
         }
-
-        currentMonth = newMonth;
+        
+    
         generateCalendar();
         updateSelectedDateStyles();
     }
@@ -144,6 +142,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         updateCalendar();
     });
-
+    
     generateCalendar();
 });
