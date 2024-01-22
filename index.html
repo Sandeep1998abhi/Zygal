@@ -3,11 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calendar</title>
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
 </head>
 <body>
-    <h1>hello</h1>
-    <script src="index.js"></script>
+    <div>
+        <div class="btn">
+        <button id="prevButton">Previous</button>
+        <button id="nextButton">Next</button>
+        </div>
+        <table id="calendar">
+            <thead>
+                <tr>
+                    <th colspan="7" id="monthYear"></th>
+                </tr>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+    </div>
+
+    <div id="selectedDateDisplay"></div>
+
+    <script src="index.js">
+        
+    </script>
 </body>
 </html>
